@@ -23,8 +23,22 @@
     type="text/css">
 
 {{ $options := (dict "targetPath" "main.css" "outputStyle" "compressed" "enableSourceMap" true) }}
+<!--
 {{ $style := resources.Get "scss/main.scss" | resources.ToCSS $options | resources.Fingerprint }}
 <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+
+{{ range $val := $.Site.Params.customCSS }}
+    {{ if gt (len $val) 0 }}
+        <link rel="stylesheet" type="text/css" href="{{ $val }}">
+    {{ end }}
+    {{ end }}
+-->
+
+{{ $base := resources.Get "scss/base.scss" }}
+{{ $main := resources.Get "scss/main.scss" }}
+{{ $scss := slice $base $main | resources.Concat "scss/main.scss" }}
+{{ $style := $scss | toCSS | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $style.Permalink }}">
 
 {{ range $val := $.Site.Params.customCSS }}
     {{ if gt (len $val) 0 }}
@@ -37,7 +51,6 @@
 
 {{ template "_internal/schema.html" . }}
 {{ template "_internal/twitter_cards.html" . }}
-{{ template "_internal/google_news.html" . }}
 
 {{ if isset .Site.Taxonomies "series" }}
     {{ template "_internal/opengraph.html" . }}
