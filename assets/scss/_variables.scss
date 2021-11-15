@@ -1,7 +1,8 @@
 @charset "UTF-8";
 
 /* Colors -- a.la. Dracula */
-$background: #282a36;
+//$background: #282a36;
+$background: #1d1e26;
 $curr-line: #44475a;
 $foreground: #f8f8f2;
 $comment: #6272a4;
@@ -16,14 +17,14 @@ $yellow: #f1fa8c;
 /* dark theme colors */
 $dark-background: $background;
 $dark-background-secondary: $curr-line;
-$dark-color: #6C6F82;
+$dark-color: #f8f8f2;
 $dark-color-secondary: #585B6E;
 $dark-border-color: $curr-line;
 /* light theme color */
 /* Dracula hates the light */
 $light-background: $dark-background;
 $light-background-secondary: $dark-background-secondary;
-$light-color: $dark-color;
+$light-color: #f8f8f2;
 $light-color-secondary: $dark-color-secondary;
 $light-border-color: $dark-border-color;
 
