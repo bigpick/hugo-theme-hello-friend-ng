@@ -183,6 +183,27 @@ figure {
   }
 }
 
+em, i, strong {
+  // Default
+  color: $light-color-variant;
+
+  @media (prefers-color-scheme: dark) {
+    color: $dark-color-variant;
+  }
+
+  @media (prefers-color-scheme: light) {
+    color: $light-color-variant;
+  }
+
+  [data-theme=dark] & {
+    color: white;
+  }
+
+  [data-theme=light] & {
+    color: black;
+  }
+}
+
 code {
   font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
   font-display: auto;
@@ -241,15 +262,15 @@ pre {
     .dark-theme & {
       color: inherit;
     }
-  
+
     @media (prefers-color-scheme: light) {
       color: #ccc;
     }
-  
+
     [data-theme=dark] & {
       color: inherit;
     }
-  
+
     [data-theme=light] & {
       color: #ccc;
     }
