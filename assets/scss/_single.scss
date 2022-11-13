@@ -47,15 +47,11 @@
     width: $max-width;
     max-width: $max-width;
     overflow: hidden;
+
     @media #{$media-size-tablet} {
       margin: 20px 0;
       width: 100%;
     }
-  }
-
-  &-excerpt {
-    color: grey;
-    font-style: italic;
   }
 
   &-info {
@@ -131,7 +127,7 @@
       background: $light-background;
       color: $light-color-secondary;
 
-      @media (prefers-color-scheme: dark) {
+      .dark-theme & {
         background: $dark-background;
         color: $dark-color-secondary;
       }
@@ -189,7 +185,7 @@
   // Default
   background: $light-background-secondary;
 
-  @media (prefers-color-scheme: dark) {
+  .dark-theme & {
     background: $dark-background-secondary;
   }
 
