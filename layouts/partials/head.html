@@ -22,23 +22,22 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
     type="text/css">
 
+{{ $base := resources.Get "scss/base.scss" }}
+{{ $custom := resources.Get "scss/custom.scss" }}
+{{ $scss := slice $base $custom | resources.Concat "scss/custom.scss" }}
+
 {{ $options := (dict "targetPath" "main.css" "outputStyle" "compressed" "enableSourceMap" true) }}
-<!--
-{{ $style := resources.Get "scss/main.scss" | resources.ToCSS $options | resources.Fingerprint }}
+{{ $style := $scss | resources.ToCSS $options | resources.Fingerprint }}
+
+
 <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+
 
 {{ range $val := $.Site.Params.customCSS }}
     {{ if gt (len $val) 0 }}
         <link rel="stylesheet" type="text/css" href="{{ $val }}">
     {{ end }}
-    {{ end }}
--->
-
-{{ $base := resources.Get "scss/base.scss" }}
-{{ $main := resources.Get "scss/main.scss" }}
-{{ $scss := slice $base $main | resources.Concat "scss/main.scss" }}
-{{ $style := $scss | toCSS | minify | fingerprint }}
-<link rel="stylesheet" href="{{ $style.Permalink }}">
+{{ end }}
 
 {{ range $val := $.Site.Params.customCSS }}
     {{ if gt (len $val) 0 }}
