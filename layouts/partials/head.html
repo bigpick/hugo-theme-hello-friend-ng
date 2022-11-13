@@ -22,12 +22,13 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
     type="text/css">
 
-{{ $main := resources.Get "scss/main.scss" }}
+{{ $base := resources.Get "scss/base.scss" }}
 {{ $custom := resources.Get "scss/custom.scss" }}
-{{ $scss := slice $main $custom | resources.Concat "scss/custom.scss" }}
+{{ $scss := slice $base $custom | resources.Concat "scss/custom.scss" }}
 
 {{ $options := (dict "targetPath" "main.css" "outputStyle" "compressed" "enableSourceMap" true) }}
 {{ $style := $scss | resources.ToCSS $options | resources.Fingerprint }}
+
 
 <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 
