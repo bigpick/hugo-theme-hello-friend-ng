@@ -18,8 +18,10 @@ function detectOSColorTheme() {
     document.documentElement.setAttribute("data-theme", "light");
   } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
     document.documentElement.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
   } else {
     document.documentElement.setAttribute("data-theme", "light");
+    localStorage.setItem("theme", "light");
   }
 }
 
