@@ -1,5 +1,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{{ if .Params.noindex }}
+<meta name="robots" content="noindex" />
+{{ end }}
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="{{ if .Params.author }}{{ .Params.author }}{{ else }}{{ range .Site.Author }}{{ . }} {{ end }}{{ end }}">
 <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.homeSubtitle }}{{ else }}{{ if .Params.Description }}{{ .Params.Description }}{{ else }}{{ .Summary | plainify }}{{ end }}{{ end }}" />
@@ -19,19 +22,13 @@
 {{ end }}
 
 <!-- CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
-    type="text/css">
-
-{{ $base := resources.Get "scss/base.scss" }}
+{{ $main := resources.Get "scss/main.scss" }}
 {{ $custom := resources.Get "scss/custom.scss" }}
-{{ $scss := slice $base $custom | resources.Concat "scss/custom.scss" }}
-
-{{ $options := (dict "targetPath" "main.css" "outputStyle" "compressed" "enableSourceMap" true) }}
-{{ $style := $scss | resources.ToCSS $options | resources.Fingerprint }}
-
-
-<link rel="stylesheet" href="{{ $style.RelPermalink }}">
-
+{{ $scss := slice $main $custom | resources.Concat "scss/custom.scss" }}
+{{ $opts := dict "transpiler" "libsass" "targetPath" "main.css" "outputStyle" "compressed" "enableSourceMap" true }}
+{{ with $scss | toCSS $opts | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+{{ end }}
 
 {{ range $val := $.Site.Params.customCSS }}
     {{ if gt (len $val) 0 }}
@@ -80,6 +77,11 @@
 {{- end }}
 
 <!-- Google Analytics internal template -->
-{{- if .Site.GoogleAnalytics }}
+{{- if .Site.Config.Services.GoogleAnalytics.ID }}
     {{ template "_internal/google_analytics.html" . }}
+{{- end }}
+
+<!-- Plausible.io -->
+{{- if $.Site.Params.plausibleDataDomain }}
+    <script defer data-domain="{{ .Site.Params.plausibleDataDomain }}" src="{{ .Site.Params.plausibleScriptSource }}"></script>
 {{- end}}
